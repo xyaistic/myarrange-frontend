@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Home from '../screens/Customer/Home';
 import MyRequest from '../screens/Customer/MyRequest';
 import Profile from '../screens/Customer/Profile';
+import VendorNavigation from './VendorNavigation';
 
 // import VendorNavigation from './VendorNavigation';
 
@@ -43,7 +44,7 @@ export default function CustomerNavigation() {
     >
       <CustomerTab.Screen name="Home" component={Home} />
       <CustomerTab.Screen name="Requests" component={MyRequest}/>
-      {/* <CustomerTab.Screen name="Vendor" component={VendorNavigation} /> */}
+      <CustomerTab.Screen name="Vendor" component={VendorNavigation} />
       <CustomerTab.Screen name="Profile" component={Profile} />
     </CustomerTab.Navigator>
   );
