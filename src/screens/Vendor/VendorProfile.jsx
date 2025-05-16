@@ -6,11 +6,13 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  TextInput,
   Switch,
   Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useForm } from 'react-hook-form';
+import InputField from '../../components/FormComponents/InputField';
+import SubmitButton from '../../components/FormComponents/SubmitButton';
 
 export default function VendorProfile() {
   // Dummy vendor data
@@ -55,6 +57,32 @@ export default function VendorProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue
+  } = useForm({
+    defaultValues: {
+      name: vendorData.name,
+      email: vendorData.email,
+      phone: vendorData.phone,
+      address: vendorData.address,
+      bio: vendorData.bio
+    }
+  });
+
+  // Set form values when editing starts
+  React.useEffect(() => {
+    if (isEditing) {
+      setValue('name', vendorData.name);
+      setValue('email', vendorData.email);
+      setValue('phone', vendorData.phone);
+      setValue('address', vendorData.address);
+      setValue('bio', vendorData.bio);
+    }
+  }, [isEditing, setValue, vendorData]);
+
   const toggleAvailability = (day) => {
     setVendorData({
       ...vendorData,
@@ -77,7 +105,17 @@ export default function VendorProfile() {
   };
 
   // Save profile changes
-  const saveChanges = () => {
+  const saveChanges = (data) => {
+    // Update vendorData with form values
+    setVendorData({
+      ...vendorData,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      address: data.address,
+      bio: data.bio
+    });
+    
     // In a real app, you would send the updated data to your API
     Alert.alert('Success', 'Profile updated successfully');
     setIsEditing(false);
@@ -86,7 +124,6 @@ export default function VendorProfile() {
   // Render profile information tab
   const renderProfileTab = () => (
     <View className="mt-4">
-      {/* Basic Info Section */}
       <View className="bg-white rounded-lg p-4 mb-4">
         <View className="flex-row justify-between items-center mb-4">
           <Text className="text-lg font-bold">Basic Information</Text>
@@ -95,90 +132,126 @@ export default function VendorProfile() {
           </TouchableOpacity>
         </View>
 
-        <View className="space-y-4">
-          <View>
-            <Text className="text-gray-500 text-sm mb-1">Full Name</Text>
-            {isEditing ? (
-              <TextInput
-                className="border border-gray-300 rounded-md p-2"
-                value={vendorData.name}
-                onChangeText={(text) => setVendorData({...vendorData, name: text})}
-              />
-            ) : (
-              <Text className="text-gray-800">{vendorData.name}</Text>
-            )}
+        {isEditing ? (
+          <View className="space-y-4">
+            <InputField
+              label="Full Name"
+              name="name"
+              control={control}
+              placeholder="Enter your full name"
+              iconName="person-outline"
+              rules={{ required: 'Name is required' }}
+              errors={errors}
+            />
+            
+            <InputField
+              label="Email"
+              name="email"
+              control={control}
+              placeholder="Enter your email"
+              iconName="mail-outline"
+              keyboardType="email-address"
+              rules={{ 
+                required: 'Email is required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Invalid email address'
+                }
+              }}
+              errors={errors}
+            />
+            
+            <InputField
+              label="Phone"
+              name="phone"
+              control={control}
+              placeholder="Enter your phone number"
+              iconName="phone"
+              keyboardType="phone-pad"
+              rules={{ required: 'Phone number is required' }}
+              errors={errors}
+            />
+            
+            <InputField
+              label="Address"
+              name="address"
+              control={control}
+              placeholder="Enter your address"
+              iconName="location-on"
+              rules={{ required: 'Address is required' }}
+              errors={errors}
+            />
+            
+            <InputField
+              label="Bio"
+              name="bio"
+              control={control}
+              placeholder="Tell us about yourself"
+              iconName="description"
+              rules={{ required: 'Bio is required' }}
+              errors={errors}
+            />
+            
+            <SubmitButton 
+              title="Save Changes" 
+              onPress={handleSubmit(saveChanges)} 
+            />
           </View>
+        ) : (
+          <View className="space-y-4">
+            <View>
+              <Text className="text-subheading font-semibold uppercase text-gray-700 mb-2">
+                Full Name
+              </Text>
+              <View className="flex-row items-center border rounded-lg px-4 py-3 bg-white border-gray-300">
+                <Icon name="person-outline" size={22} color="#888" style={{ marginRight: 10 }} />
+                <Text className="flex-1 text-base text-gray-800">{vendorData.name}</Text>
+              </View>
+            </View>
 
-          <View>
-            <Text className="text-gray-500 text-sm mb-1">Email</Text>
-            {isEditing ? (
-              <TextInput
-                className="border border-gray-300 rounded-md p-2"
-                value={vendorData.email}
-                onChangeText={(text) => setVendorData({...vendorData, email: text})}
-                keyboardType="email-address"
-              />
-            ) : (
-              <Text className="text-gray-800">{vendorData.email}</Text>
-            )}
+            <View>
+              <Text className="text-subheading font-semibold uppercase text-gray-700 mb-2">
+                Email
+              </Text>
+              <View className="flex-row items-center border rounded-lg px-4 py-3 bg-white border-gray-300">
+                <Icon name="mail-outline" size={22} color="#888" style={{ marginRight: 10 }} />
+                <Text className="flex-1 text-base text-gray-800">{vendorData.email}</Text>
+              </View>
+            </View>
+
+            <View>
+              <Text className="text-subheading font-semibold uppercase text-gray-700 mb-2">
+                Phone
+              </Text>
+              <View className="flex-row items-center border rounded-lg px-4 py-3 bg-white border-gray-300">
+                <Icon name="phone" size={22} color="#888" style={{ marginRight: 10 }} />
+                <Text className="flex-1 text-base text-gray-800">{vendorData.phone}</Text>
+              </View>
+            </View>
+
+            <View>
+              <Text className="text-subheading font-semibold uppercase text-gray-700 mb-2">
+                Address
+              </Text>
+              <View className="flex-row items-center border rounded-lg px-4 py-3 bg-white border-gray-300">
+                <Icon name="location-on" size={22} color="#888" style={{ marginRight: 10 }} />
+                <Text className="flex-1 text-base text-gray-800">{vendorData.address}</Text>
+              </View>
+            </View>
+
+            <View>
+              <Text className="text-subheading font-semibold uppercase text-gray-700 mb-2">
+                Bio
+              </Text>
+              <View className="flex-row border rounded-lg px-4 py-3 bg-white border-gray-300">
+                <Icon name="description" size={22} color="#888" style={{ marginRight: 10, marginTop: 2 }} />
+                <Text className="flex-1 text-base text-gray-800">{vendorData.bio}</Text>
+              </View>
+            </View>
           </View>
-
-          <View>
-            <Text className="text-gray-500 text-sm mb-1">Phone</Text>
-            {isEditing ? (
-              <TextInput
-                className="border border-gray-300 rounded-md p-2"
-                value={vendorData.phone}
-                onChangeText={(text) => setVendorData({...vendorData, phone: text})}
-                keyboardType="phone-pad"
-              />
-            ) : (
-              <Text className="text-gray-800">{vendorData.phone}</Text>
-            )}
-          </View>
-
-          <View>
-            <Text className="text-gray-500 text-sm mb-1">Address</Text>
-            {isEditing ? (
-              <TextInput
-                className="border border-gray-300 rounded-md p-2"
-                value={vendorData.address}
-                onChangeText={(text) => setVendorData({...vendorData, address: text})}
-                multiline
-              />
-            ) : (
-              <Text className="text-gray-800">{vendorData.address}</Text>
-            )}
-          </View>
-
-          <View>
-            <Text className="text-gray-500 text-sm mb-1">Bio</Text>
-            {isEditing ? (
-              <TextInput
-                className="border border-gray-300 rounded-md p-2"
-                value={vendorData.bio}
-                onChangeText={(text) => setVendorData({...vendorData, bio: text})}
-                multiline
-                numberOfLines={3}
-                textAlignVertical="top"
-              />
-            ) : (
-              <Text className="text-gray-800">{vendorData.bio}</Text>
-            )}
-          </View>
-
-          {isEditing && (
-            <TouchableOpacity
-              className="bg-blue-500 py-3 rounded-md items-center mt-2"
-              onPress={saveChanges}
-            >
-              <Text className="text-white font-medium">Save Changes</Text>
-            </TouchableOpacity>
-          )}
-        </View>
+        )}
       </View>
 
-      {/* Stats Section */}
       <View className="bg-white rounded-lg p-4 mb-4">
         <Text className="text-lg font-bold mb-4">Stats & Achievements</Text>
         
@@ -336,14 +409,12 @@ export default function VendorProfile() {
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Profile Header */}
-        <View className="bg-blue-500 pt-4 pb-20">
+        <View className="bg-primary pt-4 pb-20">
           <View className="px-4">
             <Text className="text-white text-xl font-bold">My Profile</Text>
           </View>
         </View>
         
-        {/* Profile Card */}
         <View className="px-4 -mt-16 mb-4">
           <View className="bg-white rounded-lg p-4 shadow-sm">
             <View className="flex-row">
@@ -381,7 +452,7 @@ export default function VendorProfile() {
               className={`flex-1 py-2 rounded-md ${activeTab === 'profile' ? 'bg-white' : ''}`}
               onPress={() => setActiveTab('profile')}
             >
-              <Text className={`text-center uppercase text-subheading ${activeTab === 'profile' ? 'text-blue-500 font-medium' : 'text-gray-500'}`}>
+              <Text className={`text-center font-semibold uppercase text-subheading ${activeTab === 'profile' ? 'text-primary font-bold' : 'text-gray-500 font-medium'}`}>
                 Profile
               </Text>
             </TouchableOpacity>
@@ -390,7 +461,7 @@ export default function VendorProfile() {
               className={`flex-1 py-2 rounded-md ${activeTab === 'settings' ? 'bg-white' : ''}`}
               onPress={() => setActiveTab('settings')}
             >
-              <Text className={`text-center uppercase text-subheading ${activeTab === 'settings' ? 'text-blue-500 font-medium' : 'text-gray-500'}`}>
+              <Text className={`text-center uppercase text-subheading ${activeTab === 'settings' ? 'text-primary font-bold' : 'text-gray-500 font-medium'}`}>
                 Settings
               </Text>
             </TouchableOpacity>

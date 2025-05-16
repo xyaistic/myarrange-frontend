@@ -37,7 +37,7 @@ export default function CustomerNavigation() {
 
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#007AFF',
+        tabBarActiveTintColor: '#3c8b27',
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
       })}
