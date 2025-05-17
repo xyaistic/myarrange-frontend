@@ -1,9 +1,12 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axiosInstance from '../utils/axiosInstance';
 import axios from 'axios';
-import {API_BASE_URL} from '@env'
+
+// Access environment variables directly
+const API_BASE_URL = process.env.API_BASE_URL || 'https://4oga00p86kk6.share.zrok.io/api';
+
 const useAuthStore = create(
   persist(
     (set) => ({
@@ -17,7 +20,7 @@ const useAuthStore = create(
       login: async (email, password) => {
         set({ isLoading: true, error: null });
         try {
-          const response = await axios.post(`${API_BASE_URL}/auth/login`, { email : '', password });
+          const response = await axios.post(`${API_BASE_URL}/auth/login`, { email, password });
         //   await AsyncStorage.setItem('token', response.token);
 
           set({
@@ -35,17 +38,8 @@ const useAuthStore = create(
       signup: async (userData) => {
         set({ isLoading: true, error: null });
         try {
-          const response = await axios.post(`https://nx50lq7a8dep.share.zrok.io/api/auth/register`, userData);
-          console.log(response, 'resposnse')
-          // await AsyncStorage.setItem('token', response.token);
-
-          set({
-            user: response.user,
-            token: response.token,
-            role: response.role,
-            isAuthenticated: true,
-            isLoading: false
-          });
+          const response = await axios.post(`${API_BASE_URL}/auth/register`, userData);
+          return response;
         } catch (error) {
           console.log(error)
           set({ error: error.message, isLoading: false });
@@ -65,9 +59,36 @@ const useAuthStore = create(
       },
 
       clearError: () => set({ error: null }),
+
+      otpVerify: async (verifyData) => {
+        set({ isLoading: true, error: null });
+        try {
+          const response = await axios.post(`${API_BASE_URL}/auth/verify`, verifyData);
+          console.log(response.data, 'verifyOtpData');
+          // Store tokens in AsyncStorage
+          // await AsyncStorage.setItem('accessToken', response.data.accessToken);
+          // await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
+          
+          set({
+            user: {
+              id: response.data.id,
+              username: response.data.username
+            },
+            token: response.data.accessToken,
+            refreshToken: response.data.refreshToken,
+            isAuthenticated: true,
+            isLoading: false
+          });
+          return response.data;
+        } catch (error) {
+          console.log(error);
+          set({ error: error.message, isLoading: false });
+          return null;
+        }
+      },
     }),
     {
-      name: 'auth-storage',
+      // name: 'auth-storage',
     //   storage: createJSONStorage(() => AsyncStorage),
     }
   )

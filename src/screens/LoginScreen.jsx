@@ -29,7 +29,9 @@ const AuthTabs = ({ activeTab, setActiveTab }) => {
 };
 
 export default function LoginScreen() {
+    const [showOtpField, setShowOtpField] = useState(false);
     const [activeTab, setActiveTab] = useState('login');
+
 
     return (
         <View className="flex-1 bg-white">
@@ -40,12 +42,7 @@ export default function LoginScreen() {
                 end={{ x: 0.40, y: 0.01 }}
                 className=" h-1/3 items-center justify-center"
             >
-                {/* <ImageBackground
-                source={{ uri: 'https://img.freepik.com/free-vector/magical-golden-glitter-dust-particle-dark-background_1017-55106.jpg' }}
-                resizeMode="cover"
-                className="flex-1 justify-center bg-blend-multiply"
                 
-            > */}
                 <View className="mt-10 p-4">
                     <Text className="text-heading-2 font-bold text-center text-white">
                         {activeTab === 'login' ? 'Welcome back.' : 'Welcome.'}
@@ -54,7 +51,6 @@ export default function LoginScreen() {
                         {activeTab === 'login' ? 'Log in to explore our app' : 'Creat an account to get started'}
                     </Text>
                 </View>
-                {/* </ImageBackground> */}
             </LinearGradient>
 
             <View className="bg-white p-4 rounded-t-3xl -mt-5 flex-1">
@@ -68,7 +64,8 @@ export default function LoginScreen() {
                     contentContainerStyle={{ paddingBottom: 30 }}
                     keyboardShouldPersistTaps="handled"
                 >
-                    {activeTab === 'login' ? <LoginForm /> : <SignupForm />}
+                    {activeTab === 'login' ? <LoginForm /> : 
+                    <SignupForm/>}
 
                 </ScrollView>
             </View>

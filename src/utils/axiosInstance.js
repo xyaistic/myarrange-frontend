@@ -1,8 +1,11 @@
 import axios from 'axios';
-// import {API_BASE_URL} from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+const API_BASE_URL = process.env.API_BASE_URL || 'https://4oga00p86kk6.share.zrok.io/api';
+
 const axiosInstance = axios.create({
-    baseURL: '',
+    baseURL: API_BASE_URL,
 });
 
 axiosInstance.interceptors.request.use(

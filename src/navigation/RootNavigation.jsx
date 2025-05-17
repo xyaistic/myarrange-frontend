@@ -14,6 +14,7 @@ export default function RootNavigation() {
 
   return (
     <NavigationContainer>
+      
       <Stack.Navigator>
         {!isAuthenticated ? (
           // Authenticated screens
