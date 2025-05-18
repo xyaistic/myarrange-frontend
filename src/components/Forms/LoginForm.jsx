@@ -5,6 +5,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import InputField from '../FormComponents/InputField';
 import RememberMeCheckbox from '../FormComponents/RememberMeCheckbox';
 import SubmitButton from '../FormComponents/SubmitButton';
+import useAuthStore from '../../context/AuthContext';
 
 
 const LoginForm = () => {
@@ -13,11 +14,11 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+const { login } = useAuthStore();
   const [rememberMe, setRememberMe] = useState(false);
 
   const onSubmit = (data) => {
-    console.log('Login Data:', { ...data, rememberMe });
+    login(data.email, data.password);
   };
 
   const handleGoogleLogin = () => {

@@ -17,11 +17,29 @@ const useAuthStore = create(
       isLoading: false,
       error: null,
 
+      checkAuth: async () => {
+        try {
+          const accessToken = await AsyncStorage.getItem('accessToken');
+          if (accessToken) {
+            set({
+              token: accessToken,
+              isAuthenticated: true
+            });
+            return true;
+          }
+          return false;
+        } catch (error) {
+          console.log('Error checking auth:', error);
+          return false;
+        }
+      },
+
       login: async (email, password) => {
         set({ isLoading: true, error: null });
         try {
           const response = await axios.post(`${API_BASE_URL}/auth/login`, { email, password });
-        //   await AsyncStorage.setItem('token', response.token);
+          console.log(response.data, 'loginData');
+          //   await AsyncStorage.setItem('token', response.token);
 
           set({
             user: response.user,
@@ -47,9 +65,8 @@ const useAuthStore = create(
       },
 
       logout: async () => {
-        // Remove token from AsyncStorage
-        // await AsyncStorage.removeItem('token');
-
+        const res = await AsyncStorage.getItem('accessToken');
+        console.log(res, 'access token');
         set({
           user: null,
           token: null,
@@ -65,10 +82,10 @@ const useAuthStore = create(
         try {
           const response = await axios.post(`${API_BASE_URL}/auth/verify`, verifyData);
           console.log(response.data, 'verifyOtpData');
-          // Store tokens in AsyncStorage
-          // await AsyncStorage.setItem('accessToken', response.data.accessToken);
-          // await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
-          
+
+          await AsyncStorage.setItem('accessToken', response?.data?.accessToken);
+          await AsyncStorage.setItem('refreshToken', response?.data?.refreshToken);
+
           set({
             user: {
               id: response.data.id,
@@ -89,7 +106,7 @@ const useAuthStore = create(
     }),
     {
       // name: 'auth-storage',
-    //   storage: createJSONStorage(() => AsyncStorage),
+      //   storage: createJSONStorage(() => AsyncStorage),
     }
   )
 );

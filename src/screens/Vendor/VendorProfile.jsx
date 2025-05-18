@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -73,7 +73,7 @@ export default function VendorProfile() {
   });
 
   // Set form values when editing starts
-  React.useEffect(() => {
+  useEffect(() => {
     if (isEditing) {
       setValue('name', vendorData.name);
       setValue('email', vendorData.email);
@@ -411,7 +411,7 @@ export default function VendorProfile() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="bg-primary pt-4 pb-20">
           <View className="px-4">
-            <Text className="text-white text-xl font-bold">My Profile</Text>
+            <Text className="text-white text-xl font-bold">Vendor Profile</Text>
           </View>
         </View>
         
