@@ -5,12 +5,16 @@ import Home from '../screens/Customer/Home';
 import MyRequest from '../screens/Customer/MyRequest';
 import Profile from '../screens/Customer/Profile';
 import VendorNavigation from './VendorNavigation';
+import useAuthStore from '../context/AuthContext';
+import LoginScreen from '../screens/LoginScreen';
+import LoginNavigation from './LoginNavigation';
 
 // import VendorNavigation from './VendorNavigation';
 
 
 export default function CustomerNavigation() {
   const CustomerTab = createBottomTabNavigator();
+  const { checkAuth, isAuthenticated } = useAuthStore();
 
   return (
     <CustomerTab.Navigator
@@ -31,6 +35,9 @@ export default function CustomerNavigation() {
             case 'Profile':
               iconName = 'person';
               break;
+            case 'Login':
+              iconName = 'fingerprint';
+              break;
             default:
               iconName = 'help-outline';
           }
@@ -45,7 +52,11 @@ export default function CustomerNavigation() {
       <CustomerTab.Screen name="Home" component={Home} />
       <CustomerTab.Screen name="Requests" component={MyRequest}/>
       <CustomerTab.Screen name="Vendor" component={VendorNavigation} />
-      <CustomerTab.Screen name="Profile" component={Profile} />
+      {isAuthenticated?(
+        <CustomerTab.Screen name="Profile" component={Profile} />
+      ):(
+        <CustomerTab.Screen name="Login" component={LoginNavigation} />
+      )}
     </CustomerTab.Navigator>
   );
 }

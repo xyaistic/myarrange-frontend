@@ -1,29 +1,43 @@
 import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, Image, Switch } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import LoginScreen from '../LoginScreen'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import useAuthStore from '../../context/AuthContext';
 
 export default function Profile() {
-  const { user ,isAuthenticated, logout} = useAuthStore();
-  const isLoggedIn = true;
+  const { user, isAuthenticated, logout } = useAuthStore();
   const [activeTab, setActiveTab] = useState('personal');
-console.log(isAuthenticated)
+ 
   const [customerData, setCustomerData] = useState({
-    name: 'Sarah Johnson',
-    email: 'sarah.johnson@example.com',
-    phone: '+91 9876543210',
-    address: '456 Park Avenue, Bhopal, India',
-    profileImage: 'https://randomuser.me/api/portraits/women/44.jpg',
-    memberSince: 'March 2023',
-    completedRequests: 12,
-    notifications: {
+    name: user?.username || 'Sarah Johnson',
+    email: user?.email || 'sarah.johnson@example.com',
+    phone: user?.phone || '+91 9876543210',
+    address: user?.address || '456 Park Avenue, Bhopal, India',
+    profileImage: user?.profileImage || 'https://randomuser.me/api/portraits/women/44.jpg',
+    memberSince: user?.memberSince || 'March 2023',
+    completedRequests: user?.completedRequests || 12,
+    notifications: user?.notifications || {
       newServices: true,
       messages: true,
       updates: true,
       promotions: false
     }
   });
+
+  useEffect(() => {
+    if (user) {
+      setCustomerData({
+        name: user.name || customerData.name,
+        email: user.email || customerData.email,
+        phone: user.phone || customerData.phone,
+        address: user.address || customerData.address,
+        profileImage: user.profileImage || customerData.profileImage,
+        memberSince: user.memberSince || customerData.memberSince,
+        completedRequests: user.completedRequests || customerData.completedRequests,
+        notifications: user.notifications || customerData.notifications
+      });
+    }
+  }, [user]);
 
   const renderPersonalInfo = () => (
     <View className="mt-4">

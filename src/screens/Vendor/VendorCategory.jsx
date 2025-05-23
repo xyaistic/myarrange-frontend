@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import InputField from '../../components/FormComponents/InputField';
+import { useForm } from 'react-hook-form';
 
 export default function VendorCategory() {
   const navigation = useNavigation();
   const [selectedCategory, setSelectedCategory] = useState(null);
-  
+  const {control, handleSubmit, formState: { errors }} = useForm();
   const categories = [
     { id: '1', name: 'Car Service', icon: 'directions-car' },
     { id: '2', name: 'AC Service', icon: 'ac-unit' },
@@ -34,7 +36,6 @@ export default function VendorCategory() {
 
   const handleContinue = () => {
     if (selectedCategory) {
-
       navigation.navigate('VendorDrawer');
     }
   };
@@ -43,8 +44,14 @@ export default function VendorCategory() {
     <SafeAreaView className="flex-1 bg-gray-50">
       <View className="p-4">
         <Text className="text-xl font-bold mb-4">Select Your Service Category</Text>
-        <Text className="text-gray-600 mb-6">Choose the categories you want to offer services in</Text>
-        
+        <InputField
+          name="search"
+          iconName="search"
+          control={control}
+          placeholder="Search for categories"
+          rules={{ required: false }}
+          errors={errors}
+        />
         <FlatList
           data={categories}
           renderItem={renderCategoryItem}

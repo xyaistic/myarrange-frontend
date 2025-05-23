@@ -16,7 +16,7 @@ export default function Home() {
     if (isAuthenticated) {
       setIsDrawerOpen(true);
     } else {
-      navigation.navigate('Profile');
+      navigation.navigate('Login');
     }
   };
 
@@ -239,7 +239,7 @@ export default function Home() {
       <SafeAreaView className='flex-1 bg-white'>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className='p-4 space-y-5'>
-            {/* Header */}
+            
             <View className='pb-3 flex-row items-center justify-between border-b border-gray-300'>
               <View className='flex-row gap-2'>
                 <Icon name="location-pin" size={16} />

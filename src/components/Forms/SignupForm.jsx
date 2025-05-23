@@ -1,7 +1,7 @@
 
 
 import React, { useState, useRef } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import { useForm } from 'react-hook-form';
 import InputField from '../FormComponents/InputField';
 import SubmitButton from '../FormComponents/SubmitButton';
@@ -10,9 +10,10 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SignupForm = () => {
-    const { signup, otpVerify } = useAuthStore();
+    const { signup, otpVerify,isLoading } = useAuthStore();
     const [email, setEmail] = useState('');
     const refRBSheet = useRef();
+    const [error, setError] = useState(null);
 
     const {
         control,
@@ -21,7 +22,7 @@ const SignupForm = () => {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         const signupData = {
             fullName: data.name,
             email: data.email,
@@ -29,10 +30,13 @@ const SignupForm = () => {
             password: data.password,
         };
 
-        const response = signup(signupData);
-        if (response) {
+        const response = await signup(signupData);
+        console.log(response.data?.message);
+        if (response.status == 200) {
             setEmail(data.email);
             refRBSheet.current.open();
+        } else {
+            setError(response?.data?.message);
         }
     };
 
@@ -74,7 +78,7 @@ const SignupForm = () => {
                     rules={{
                         required: "Email is required",
                         pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            value: /^\S+@\S+\.\S+$/,
                             message: "Invalid email address"
                         }
                     }}
@@ -117,7 +121,18 @@ const SignupForm = () => {
                     }}
                     errors={errors}
                 />
-                <SubmitButton title="Sign Up" onPress={handleSubmit(onSubmit)} />
+                {error && <Text className="text-red-500 text-xs mt-1 my-3">{error}</Text>}
+                {
+                    isLoading ? (
+                        <View className='py-3 rounded-lg items-center justify-center border border-gray-200 '>
+                            <ActivityIndicator size="small" color="#3c8b27" />
+                        </View>
+
+                    )
+                        : (
+                            <SubmitButton title="Sign Up" onPress={handleSubmit(onSubmit)} />
+                        )
+                }
 
 
                 <RBSheet
@@ -173,6 +188,7 @@ const SignupForm = () => {
                             keyboardType="number-pad"
                         />
 
+                        {error && <Text className="text-red-500 text-xs mt-1 min-h-[16px]">{error}</Text>}
                         <SubmitButton title="Verify" onPress={handleSubmit(verifyOtp)} />
 
                         <View className="flex-row justify-center mt-4">

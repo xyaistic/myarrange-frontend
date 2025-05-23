@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { useForm } from 'react-hook-form';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import InputField from '../FormComponents/InputField';
 import RememberMeCheckbox from '../FormComponents/RememberMeCheckbox';
 import SubmitButton from '../FormComponents/SubmitButton';
 import useAuthStore from '../../context/AuthContext';
+import LoadingIndicator from '../Widgets/LoadingIndicator';
+import { useNavigation } from '@react-navigation/native';
 
 
 const LoginForm = () => {
@@ -14,8 +16,9 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-const { login } = useAuthStore();
+  const { login, isLoading } = useAuthStore();
   const [rememberMe, setRememberMe] = useState(false);
+  const navigation = useNavigation();
 
   const onSubmit = (data) => {
     login(data.email, data.password);
@@ -28,6 +31,9 @@ const { login } = useAuthStore();
   const handleFacebookLogin = () => {
     console.log('Facebook login clicked');
   };
+  const handleForgotPassword = () => {
+    navigation.navigate('ForgotPassword');
+  };
 
   return (
     <View>
@@ -35,9 +41,16 @@ const { login } = useAuthStore();
         label="Email / Mobile"
         iconName='mail-outline'
         name="email"
+
         control={control}
         placeholder="example@email.com"
-        rules={{ required: 'Email is required' }}
+        rules={{
+          required: "Email is required",
+          pattern: {
+            value: /^\S+@\S+\.\S+$/,
+            message: "Invalid email address"
+          }
+        }}
         errors={errors}
       />
       <InputField
@@ -54,10 +67,21 @@ const { login } = useAuthStore();
       <RememberMeCheckbox
         isChecked={rememberMe}
         onToggle={() => setRememberMe(!rememberMe)}
-        onForgotPassword={() => {}}
+        onForgotPassword={() => { navigation.navigate('ForgotPassword') }}
       />
 
-      <SubmitButton title="Log In" onPress={handleSubmit(onSubmit)} />
+      {
+        isLoading ? (
+          <View className='py-3 rounded-lg items-center justify-center border border-gray-200 '>
+            <ActivityIndicator size="small" color="#3c8b27" />
+          </View>
+
+        )
+          : (
+            <SubmitButton title="Log In" onPress={handleSubmit(onSubmit)} />
+          )
+      }
+
 
       {/* Divider with "Or" */}
       <View className="flex-row items-center my-4">
