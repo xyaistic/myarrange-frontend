@@ -24,11 +24,11 @@ export default function VendorCategory() {
   const renderCategoryItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => setSelectedCategory(item.id)}
-      className={`h-24 m-2 rounded-lg items-center justify-center flex-1 
+      className={`h-24 rounded-lg items-center justify-center flex-1 
         ${selectedCategory === item.id ? 'bg-green-100 border border-primary' : 'bg-white shadow-sm'}`}
     >
       <Icon name={item.icon} size={28} color={selectedCategory === item.id ? 'green' : '#666'} />
-      <Text className={`mt-2 text-sm ${selectedCategory === item.id ? 'font-bold text-primary' : 'text-gray-700'}`}>
+      <Text className={`mt-2 text-heading-5 ${selectedCategory === item.id ? 'font-bold text-primary' : 'text-gray-700'}`}>
         {item.name}
       </Text>
     </TouchableOpacity>
@@ -43,7 +43,7 @@ export default function VendorCategory() {
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <View className="p-4">
-        <Text className="text-xl font-bold mb-4">Select Your Service Category</Text>
+        <Text className="font-bold text-heading-3 mb-3">Select Your Service Category</Text>
         <InputField
           name="search"
           iconName="search"
@@ -54,11 +54,12 @@ export default function VendorCategory() {
         />
         <FlatList
           data={categories}
+          columnWrapperStyle={{ justifyContent: 'space-between', gap: 10 }}
           renderItem={renderCategoryItem}
           keyExtractor={(item) => item.id}
           numColumns={3}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{ paddingBottom: 20, gap: 10 }}
         />
         
         {selectedCategory && (

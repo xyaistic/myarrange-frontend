@@ -292,7 +292,7 @@ export default function Home() {
 
             <View className="space-y-3">
               <View className="flex-row justify-between items-center">
-                <Text className="font-bold text-lg">Special Offers</Text>
+                <Text className="font-bold text-heading-3">Special Offers</Text>
                 <TouchableOpacity>
                   <Text className="text-green-600">View All</Text>
                 </TouchableOpacity>
@@ -311,7 +311,7 @@ export default function Home() {
             <View className='space-y-3'>
               <View className='flex-row items-center justify-between'>
                 <View className='flex-row items-center gap-2'>
-                  <Text className='font-bold text-lg'>Top Categories</Text>
+                  <Text className="font-bold text-heading-3">Top Categories</Text>
                   <Icon name="star" color={'green'} />
                 </View>
                 <TouchableOpacity>
@@ -333,7 +333,7 @@ export default function Home() {
             {/* Popular Services */}
             <View className="space-y-3">
               <View className="flex-row justify-between items-center">
-                <Text className="font-bold text-lg">Popular Services</Text>
+                <Text className="font-bold text-heading-3">Popular Services</Text>
                 <TouchableOpacity>
                   <Text className="text-green-600">View All</Text>
                 </TouchableOpacity>
@@ -351,7 +351,7 @@ export default function Home() {
             {/* Top Vendors */}
             <View className="space-y-3">
               <View className="flex-row justify-between items-center">
-                <Text className="font-bold text-lg">Top Professionals</Text>
+                <Text className="font-bold text-heading-3">Top Professionals</Text>
                 <TouchableOpacity>
                   <Text className="text-green-600">View All</Text>
                 </TouchableOpacity>
@@ -369,7 +369,7 @@ export default function Home() {
             {/* Recent Bookings */}
             <View className="space-y-3">
               <View className="flex-row justify-between items-center">
-                <Text className="font-bold text-lg">Recent Bookings</Text>
+                <Text className="font-bold text-heading-3">Recent Bookings</Text>
                 <TouchableOpacity>
                   <Text className="text-green-600">View All</Text>
                 </TouchableOpacity>
@@ -411,7 +411,7 @@ export default function Home() {
 
             {/* Quick Actions */}
             <View className="bg-gray-50 rounded-xl p-4 mb-4">
-              <Text className="font-bold text-lg mb-3">Quick Actions</Text>
+              <Text className="font-bold text-heading-3 mb-3">Quick Actions</Text>
               <View className="flex-row justify-between">
                 <TouchableOpacity className="items-center">
                   <View className="w-12 h-12 bg-blue-100 rounded-full items-center justify-center mb-1">

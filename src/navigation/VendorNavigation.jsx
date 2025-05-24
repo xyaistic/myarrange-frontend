@@ -41,7 +41,9 @@ function VendorDrawerNavigation() {
         name="Dashboard" 
         component={VendorDashboard} 
         options={{ 
+       
           headerBlurEffect: "dark",
+          
           drawerIcon: ({color, size}) => (
             <Icon name="dashboard" size={size} color={color} />
           ),
@@ -85,7 +87,7 @@ export default function VendorNavigation() {
         name="VendorCategory" 
         component={VendorCategory} 
         options={{ 
-          headerShown: true,
+          headerShown: false,
           title: "Select Categories",
           headerTitleAlign: "center"
         }}
