@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function AdminHome() {
+export default function ManageVendor() {
   return (
     <View>
-      <Text>AdminHome</Text>
+      <Text>ManageVendor</Text>
     </View>
   )
 }

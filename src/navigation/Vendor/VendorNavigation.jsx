@@ -4,12 +4,12 @@ import { TouchableOpacity } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import VendorDashboard from '../screens/Vendor/VendorDashboard';
-import CustomDrawerContent from '../components/Widgets/CustomDrawerContent';
-import VendorBids from '../screens/Vendor/VendorBids';
-import VendorProfile from '../screens/Vendor/VendorProfile';
-import VendorManageService from '../screens/Vendor/VendorManageService';
-import VendorCategory from '../screens/Vendor/VendorCategory';
+import VendorDashboard from '../../screens/Vendor/VendorDashboard';
+import CustomDrawerContent from '../../components/Widgets/CustomDrawerContent';
+import VendorBids from '../../screens/Vendor/VendorBids';
+import VendorProfile from '../../screens/Vendor/VendorProfile';
+import VendorManageService from '../../screens/Vendor/VendorManageService';
+import VendorCategory from '../../screens/Vendor/VendorCategory';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();

@@ -8,3 +8,9 @@ export default function AdminManage() {
     </View>
   )
 }
+
+
+// dashboard with costumer , vendor ,service ,
+// auction ACTIVE, recent , cancelled 
+// manage  create catefory , create banner , create service
+// profile 

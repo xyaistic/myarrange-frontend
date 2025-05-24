@@ -1,12 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { View, Text } from 'react-native';
-import AdminHome from '../screens/Admin/AdminHome';
-import AdminAuctions from '../screens/Admin/AdminAuctions';
-import AdminManage from '../screens/Admin/AdminManage';
-import AdminProfile from '../screens/Admin/profile/AdminProfile';
-import AdminProfileNavigation from './AdminProfileNavigation';
+import AdminAuctions from '../../screens/Admin/AdminAuctions';
+import AdminManage from '../../screens/Admin/AdminManage';
+import AdminDashboad from '../../screens/Admin/Dashboard/AdminDashboad';
+import AdminProfile from '../../screens/Admin/AdminProfile';
+import AdminDashboardNavigation from './AdminDashboardNavigation';
 
 
 
@@ -20,8 +19,8 @@ export default function AdminNavigation() {
           let iconName;
 
           switch (route.name) {
-            case 'Home':
-              iconName = 'home';
+            case 'Dashboard':
+              iconName = 'dashboard';
               break;
             case 'Profile':
               iconName = 'person';
@@ -43,10 +42,10 @@ export default function AdminNavigation() {
         headerShown: false,
       })}
     >
-      <AdminTab.Screen name="Home" component={AdminHome} />
+      <AdminTab.Screen name="Dashboard" component={AdminDashboardNavigation} />
       <AdminTab.Screen name="Auctions" component={AdminAuctions} />
       <AdminTab.Screen name="Manage" component={AdminManage} />
-      <AdminTab.Screen name="Profile" component={AdminProfileNavigation} />
+      <AdminTab.Screen name="Profile" component={AdminProfile} />
     </AdminTab.Navigator>
   );
 }

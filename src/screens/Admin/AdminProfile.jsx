@@ -2,7 +2,7 @@
 import { View, Text, Image, TouchableOpacity, ScrollView, SafeAreaView, StatusBar } from 'react-native'
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import useAuthStore from '../../../context/AuthContext';
+import useAuthStore from '../../context/AuthContext';
 
 export default function AdminProfile() {
   const { logout } = useAuthStore();

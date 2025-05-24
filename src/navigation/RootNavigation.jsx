@@ -2,13 +2,13 @@
 
 import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import CustomerNavigation from './CustomerNavigation'
+import CustomerNavigation from './Customer/CustomerNavigation'
 import { NavigationContainer } from '@react-navigation/native'
 import useAuthStore from '../context/AuthContext'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import LoginScreen from '../screens/LoginScreen'
 import LoadingIndicator from '../components/Widgets/LoadingIndicator'
-import AdminNavigation from './AdminNavigation'
+import AdminNavigation from './Admin/AdminNavigation'
 
 const Stack = createNativeStackNavigator();
 

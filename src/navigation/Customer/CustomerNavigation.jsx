@@ -1,16 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Home from '../screens/Customer/Home';
-import MyRequest from '../screens/Customer/MyRequest';
-import Profile from '../screens/Customer/Profile';
-import VendorNavigation from './VendorNavigation';
-import useAuthStore from '../context/AuthContext';
-import LoginScreen from '../screens/LoginScreen';
-import LoginNavigation from './LoginNavigation';
 
-// import VendorNavigation from './VendorNavigation';
-
+import Home from '../../screens/Customer/Home';
+import MyRequest from '../../screens/Customer/MyRequest';
+import VendorNavigation from '../Vendor/VendorNavigation';
+import Profile from '../../screens/Customer/Profile';
+import LoginNavigation from '../LoginNavigation';
+import useAuthStore from '../../context/AuthContext';
 
 export default function CustomerNavigation() {
   const CustomerTab = createBottomTabNavigator();
